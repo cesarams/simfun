@@ -1,0 +1,30 @@
+/* CSS Document */
+.icon-AdminSimfun {
+	background: url(../../logo.png) no-repeat;
+	background-size: 100%;
+	height: 23px;
+	background-position-y: bottom;
+	background-position-x: right;
+	position: relative;
+	top: 4px;
+}
+#step2, #step3, #message {
+	display: none;
+}
+#step3 .required:after {
+	content: ' *';
+	color: red;
+}
+#step3 .required:before {
+	content: '';
+}
+#step3 select {
+	width:100%;
+}
+#step3 div {
+	display: inline-table;
+}
+#step3 .terminos {
+	float: left;
+    padding-top: 5px;
+}
