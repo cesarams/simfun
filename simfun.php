@@ -26,17 +26,15 @@
 
 class simfun extends Module
 {
-	public $tabs;
-    public function __construct()
-    {
-		$this->tabs = array(
+	public $tabs = array(
 				array(
-						'name' => $this->l('Credito Online'), // One name for all langs
+						'name' => 'Crédito Online', // One name for all langs
 						'class_name' => 'AdminSimfun',
 						'visible' => true,
 						'parent_class_name' => 'SELL',
-			));	
-			
+			));
+    public function __construct()
+    {
         $this->name = 'simfun';
         $this->tab = 'front_office_features';
         $this->version = '1.0.0';
@@ -213,7 +211,6 @@ class simfun extends Module
             Shop::getContextShopID(true)
         );
 		
-		
         if (count($this->_error) > 0) {
             $errors = implode('', $this->_error);
         }
@@ -224,51 +221,51 @@ class simfun extends Module
     {
 		$sql = '
 				CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'simfun` (
-				  `id` int(11) NOT NULL AUTO_INCREMENT,
-				  `id_shop` int(11) NOT NULL,
-				  `nombre` varchar(150) NOT NULL,
-				  `identificacion` varchar(30) NOT NULL,
-				  `telefono` varchar(30) NOT NULL,
-				  `celular` varchar(30) NOT NULL,
-				  `direccion` tinytext NOT NULL,
-				  `departamento` varchar(50) NOT NULL,
-				  `ciudad` varchar(50) NOT NULL,
-				  `barrio` varchar(50) NOT NULL,
-				  `email` varchar(100) NOT NULL,
-				  `vivienda` varchar(50) NOT NULL,
-				  `personas_cargo` int(2) NOT NULL,
-				  `hijos` int(2) NOT NULL,
-				  `estrato` int(1) NOT NULL,
-				  `empresa` varchar(100) NOT NULL,
-				  `direccion_empresa` tinytext NOT NULL,
-				  `cargo` varchar(100) NOT NULL,
-				  `eps` varchar(50) NOT NULL,
-				  `fondo` varchar(50) NOT NULL,
-				  `actividad` varchar(100) NOT NULL,
-				  `contrato` varchar(100) NOT NULL,
-				  `fecha_vinculacion` date NOT NULL,
-				  `ingresos` int(11) NOT NULL,
-				  `egresos` int(11) NOT NULL,
-				  `placa_vehiculo` varchar(10) NOT NULL,
-				  `telefono_empresa` varchar(30) NOT NULL,
-				  `conyuge_nombre` varchar(100) NOT NULL,
-				  `conyuge_identificacion` varchar(30) NOT NULL,
-				  `conyuge_actividad` varchar(100) NOT NULL,
-				  `conyuge_ingresos` int(11) NOT NULL,
-				  `conyuge_telefono` varchar(30) NOT NULL,
-				  `referencia_familiar_nombre` varchar(100) NOT NULL,
-				  `referencia_familiar_telefono` varchar(30) NOT NULL,
-				  `referencia_familiar_celular` varchar(30) NOT NULL,
-				  `referencia_personal_nombre` varchar(100) NOT NULL,
-				  `referencia_personal_telefono` varchar(30) NOT NULL,
-				  `referencia_personal_celular` varchar(30) NOT NULL,
-				  `value` decimal(20,6) NOT NULL,
-				  `quota` int(11) NOT NULL,
-				  `tasa` decimal(20,6) NOT NULL,
-				  `cuota` decimal(20,6) NOT NULL,
-				  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				  PRIMARY KEY (`id`),
-				  KEY `id_shop` (`id_shop`)
+				`id_simfun` int(11) NOT NULL AUTO_INCREMENT,
+				`id_shop` int(11) NOT NULL,
+				`nombre` varchar(150) NOT NULL,
+				`identificacion` varchar(30) NOT NULL,
+				`telefono` varchar(30) NOT NULL,
+				`celular` varchar(30) NOT NULL,
+				`direccion` tinytext NOT NULL,
+				`departamento` varchar(50) NOT NULL,
+				`ciudad` varchar(50) NOT NULL,
+				`barrio` varchar(50) NOT NULL,
+				`email` varchar(100) NOT NULL,
+				`vivienda` varchar(50) NOT NULL,
+				`personas_cargo` int(2) NOT NULL,
+				`hijos` int(2) NOT NULL,
+				`estrato` int(1) NOT NULL,
+				`empresa` varchar(100) NOT NULL,
+				`direccion_empresa` tinytext NOT NULL,
+				`cargo` varchar(100) NOT NULL,
+				`eps` varchar(50) NOT NULL,
+				`fondo` varchar(50) NOT NULL,
+				`actividad` varchar(100) NOT NULL,
+				`contrato` varchar(100) NOT NULL,
+				`fecha_vinculacion` date NOT NULL,
+				`ingresos` int(11) NOT NULL,
+				`egresos` int(11) NOT NULL,
+				`placa_vehiculo` varchar(10) NOT NULL,
+				`telefono_empresa` varchar(30) NOT NULL,
+				`conyuge_nombre` varchar(100) NOT NULL,
+				`conyuge_identificacion` varchar(30) NOT NULL,
+				`conyuge_actividad` varchar(100) NOT NULL,
+				`conyuge_ingresos` int(11) NOT NULL,
+				`conyuge_telefono` varchar(30) NOT NULL,
+				`referencia_familiar_nombre` varchar(100) NOT NULL,
+				`referencia_familiar_telefono` varchar(30) NOT NULL,
+				`referencia_familiar_celular` varchar(30) NOT NULL,
+				`referencia_personal_nombre` varchar(100) NOT NULL,
+				`referencia_personal_telefono` varchar(30) NOT NULL,
+				`referencia_personal_celular` varchar(30) NOT NULL,
+				`value` decimal(20,6) NOT NULL,
+				`quota` int(11) NOT NULL,
+				`tasa` decimal(20,6) NOT NULL,
+				`cuota` decimal(20,6) NOT NULL,
+				`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				PRIMARY KEY (`id_simfun`),
+				KEY `id_shop` (`id_shop`)
 				) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;		
 		';    
         if (!parent::install() ||
@@ -320,9 +317,6 @@ class simfun extends Module
         } catch (Exception $e) {
             return false;
         }
-    }
-    public function hookDisplayHeader() {
-
     }
     public function hookDisplayBackOfficeHeader() {
 		 $this->context->controller->addCSS($this->_path.'views/css/simfun.css');

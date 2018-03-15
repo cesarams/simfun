@@ -26,7 +26,6 @@
 
 class AdminSimfunController extends ModuleAdminController
 {
-	
     public function __construct()
     {
         $this->bootstrap = true;
@@ -37,13 +36,12 @@ class AdminSimfunController extends ModuleAdminController
         $this->table = 'simfun';
         $this->deleted = false;
         $this->explicitSelect = true;
-        $this->_defaultOrderBy = 'id';
+        $this->_defaultOrderBy = 'date';
         $this->allow_export = true;
 		$this->can_import	= false;
 		
-		
         $this->fields_list = array(
-            'id' => array(
+            'id_simfun' => array(
                 'title' => $this->l('ID'),
                 'align' => 'center',
                 'class' => 'fixed-width-xs'
@@ -113,7 +111,7 @@ class AdminSimfunController extends ModuleAdminController
     {
 		if (Tools::isSubmit('exportsimfun')) {
 			unset($this->fields_list);
-			$this->fields_list['id'] = array ('title' => $this->l('ID'));
+			$this->fields_list['id_simfun'] = array ('title' => $this->l('ID'));
 			$this->fields_list['nombre'] = array ('title' => $this->l('NOMBRES Y APELLIDOS'));
 			$this->fields_list['identificacion'] = array ('title' => $this->l('CC/NIT'));
 			$this->fields_list['telefono'] = array ('title' => $this->l('TELEFONO'));
@@ -176,17 +174,6 @@ class AdminSimfunController extends ModuleAdminController
         }
 		parent::initPageHeaderToolbar();
 	}
-	
-	public function renderForm()
-    {
-        $this->initToolbar();
-	}
-
-   	public function renderList()
-    {
-        return parent::renderList();
-    }
-	
     public function initContent()
     {
         parent::initContent();
