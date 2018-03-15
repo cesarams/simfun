@@ -98,7 +98,7 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 				break;
 				case 'register':
 					$simfun = new SimfunCore();
-					$_POST = $_POST['post']; 
+					$_POST = Tools::getValue('post'); 
 					
 					if(!Tools::getValue('nombre') || !Validate::isName(Tools::getValue('nombre')))
 						$this->errors[] = Tools::displayError('Ingrese un nombre válido');

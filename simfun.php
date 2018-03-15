@@ -34,8 +34,9 @@ class simfun extends Module
 						'name' => $this->l('Credito Online'), // One name for all langs
 						'class_name' => 'AdminSimfun',
 						'visible' => true,
-						'parent_class_name' => 'DEFAULT',
-			));
+						'parent_class_name' => 'SELL',
+			));	
+			
         $this->name = 'simfun';
         $this->tab = 'front_office_features';
         $this->version = '1.0.0';
@@ -269,8 +270,7 @@ class simfun extends Module
 				  PRIMARY KEY (`id`),
 				  KEY `id_shop` (`id_shop`)
 				) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;		
-		';
-        
+		';    
         if (!parent::install() ||
 		 	!$this->registerHook('displayBackOfficeHeader') ||
             !$this->registerHook('displayHeader') ||

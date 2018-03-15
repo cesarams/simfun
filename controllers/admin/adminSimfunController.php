@@ -26,7 +26,7 @@
 
 class AdminSimfunController extends ModuleAdminController
 {
-	 public $php_self = 'authentication';
+	
     public function __construct()
     {
         $this->bootstrap = true;
@@ -98,6 +98,15 @@ class AdminSimfunController extends ModuleAdminController
         $this->specificConfirmDelete = false;		
 		
 		parent::__construct();
+    }
+	
+	protected function l($string, $class = null, $addslashes = false, $htmlentities = true)
+    {
+        if ( _PS_VERSION_ >= '1.7') {
+            return Context::getContext()->getTranslator()->trans($string);
+        } else {
+            return parent::l($string, $class, $addslashes, $htmlentities);
+        }
     }
 
     public function init()
