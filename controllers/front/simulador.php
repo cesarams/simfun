@@ -33,14 +33,15 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 	public $name = 'simulador';
 	public $quota;
 	public $quotes;
-	private $_tipo_vivienda;
+	public $php_self = 'simulador';
+	private $_tipo_vivienda; 
 	private $_estrato;
 	private $_tipo_contrato;
 	private $_terminos;
+	
 
 	public function init()
     {
-		global $smarty;
         parent::init();
 		$this->quotes = Configuration::get('PS_CONFIGURATION_'.mb_strtoupper($this->module->name.'_cuotas'),
             null,

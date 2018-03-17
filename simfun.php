@@ -270,6 +270,7 @@ class simfun extends Module
 		';    
         if (!parent::install() ||
 		 	!$this->registerHook('displayBackOfficeHeader') ||
+			!$this->registerHook('moduleRoutes') ||
 			!Db::getInstance()->Execute($sql)
         ) {
             return false;
@@ -317,6 +318,21 @@ class simfun extends Module
             return false;
         }
     }
+
+	public function hookModuleRoutes() {
+		return array(
+			'module-'.$this->name.'-simulador' => array( //Prestashop will use this pattern to compare addresses: module-{module_name}-{controller_name}
+				'controller' => 'simulador', //module controller name
+				'rule' => 'simulador-credito', //the desired page URL
+				'keywords' => array(),
+				'params' => array(
+					'fc' => 'module',
+					'module' => $this->name, //module name
+				)
+			),
+		);
+	}	
+	
     public function hookDisplayBackOfficeHeader() {
 		 $this->context->controller->addCSS($this->_path.'views/css/simfun.css');
     }
