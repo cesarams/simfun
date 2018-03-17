@@ -270,7 +270,6 @@ class simfun extends Module
 		';    
         if (!parent::install() ||
 		 	!$this->registerHook('displayBackOfficeHeader') ||
-            !$this->registerHook('displayHeader') ||
 			!Db::getInstance()->Execute($sql)
         ) {
             return false;

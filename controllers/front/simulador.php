@@ -38,7 +38,6 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 	private $_tipo_contrato;
 	private $_terminos;
 
-	
 	public function init()
     {
 		global $smarty;
@@ -83,10 +82,10 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 					$simfun = new SimfunCore();
 					
 					if(!Tools::getValue('value') || !Validate::isUnsignedInt(Tools::getValue('value')))
-						$this->errors[] = Tools::displayError('Ingrese el Valor de la compra');
+						$this->errors[] = $this->trans('Ingrese el Valor de la compra');
 						
 					if(!Tools::getValue('quota') || !Validate::isUnsignedInt(Tools::getValue('quota')))
-						$this->errors[] = Tools::displayError('Seleccione el Número de cuotas');	
+						$this->errors[] = $this->trans('Seleccione el Número de cuotas');	
 					
 					if(Tools::getValue('value') && Tools::getValue('quota'))
 						$this->quota = $simfun->getQuota(Tools::getValue('value'),Tools::getValue('quota'));
@@ -101,82 +100,82 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 					$_POST = Tools::getValue('post'); 
 					
 					if(!Tools::getValue('nombre') || !Validate::isName(Tools::getValue('nombre')))
-						$this->errors[] = Tools::displayError('Ingrese un nombre válido');
+						$this->errors[] = $this->trans('Ingrese un nombre válido');
 						
 					if(!Tools::getValue('identificacion'))
-						$this->errors[] = Tools::displayError('Ingrese su identificación');	
+						$this->errors[] = $this->trans('Ingrese su identificación');	
 						
 					if(!Tools::getValue('telefono') || !Validate::isPhoneNumber(Tools::getValue('telefono')))
-						$this->errors[] = Tools::displayError('Ingrese un número de teléfono válido');		
+						$this->errors[] = $this->trans('Ingrese un número de teléfono válido');		
 					
 					if(!Tools::getValue('celular') || !Validate::isPhoneNumber(Tools::getValue('celular')))
-						$this->errors[] = Tools::displayError('Ingrese un número de celular válido');	
+						$this->errors[] = $this->trans('Ingrese un número de celular válido');	
 						
 					if(!Tools::getValue('direccion') || !Validate::isAddress(Tools::getValue('direccion')))
-						$this->errors[] = Tools::displayError('Ingrese una dirección válida');	
+						$this->errors[] = $this->trans('Ingrese una dirección válida');	
 						
 					if(!Tools::getValue('departamento') || !Validate::isCityName(Tools::getValue('departamento')))
-						$this->errors[] = Tools::displayError('Ingrese un departamento válido');	
+						$this->errors[] = $this->trans('Ingrese un departamento válido');	
 						
 					if(!Tools::getValue('ciudad') || !Validate::isCityName(Tools::getValue('ciudad')))
-						$this->errors[] = Tools::displayError('Ingrese una ciudad válida');
+						$this->errors[] = $this->trans('Ingrese una ciudad válida');
 						
 					if(!Tools::getValue('barrio') || !Validate::isCityName(Tools::getValue('barrio')))
-						$this->errors[] = Tools::displayError('Ingrese una barrio válido');	
+						$this->errors[] = $this->trans('Ingrese una barrio válido');	
 						
 					if(!Tools::getValue('email') || !Validate::isEmail(Tools::getValue('email')))
-						$this->errors[] = Tools::displayError('Ingrese un Email válido');	
+						$this->errors[] = $this->trans('Ingrese un Email válido');	
 						
 					if(!Tools::getValue('vivienda'))
-						$this->errors[] = Tools::displayError('Seleccione el tipo de vivienda');	
+						$this->errors[] = $this->trans('Seleccione el tipo de vivienda');	
 					
 					if(!Validate::isInt(Tools::getValue('personas_cargo')))
-						$this->errors[] = Tools::displayError('Ingrese un numero de personas a cargo válida');	
+						$this->errors[] = $this->trans('Ingrese un numero de personas a cargo válida');	
 						
 					if(!Validate::isInt(Tools::getValue('hijos')))
-						$this->errors[] = Tools::displayError('Ingrese un numero de hijos válido');	
+						$this->errors[] = $this->trans('Ingrese un numero de hijos válido');	
 						
 					if(!Validate::isInt(Tools::getValue('estrato')))
-						$this->errors[] = Tools::displayError('Seleccione el estrato');		
+						$this->errors[] = $this->trans('Seleccione el estrato');		
 						
 					if(!Tools::getValue('empresa') || !Validate::isGenericName(Tools::getValue('empresa')))
-						$this->errors[] = Tools::displayError('Ingrese la empresa');	
+						$this->errors[] = $this->trans('Ingrese la empresa');	
 						
 					if(!Tools::getValue('direccion_empresa') || !Validate::isAddress(Tools::getValue('direccion_empresa')))
-						$this->errors[] = Tools::displayError('Ingrese una dirección de empresa válida');
+						$this->errors[] = $this->trans('Ingrese una dirección de empresa válida');
 						
 					if(!Tools::getValue('telefono_empresa') || !Validate::isPhoneNumber(Tools::getValue('telefono_empresa')))
-						$this->errors[] = Tools::displayError('Ingrese un teléfono de empresa válido');	
+						$this->errors[] = $this->trans('Ingrese un teléfono de empresa válido');	
 						
 					if(!Validate::isGenericName(Tools::getValue('cargo')))
-						$this->errors[] = Tools::displayError('Ingrese un cargo válido');														
+						$this->errors[] = $this->trans('Ingrese un cargo válido');														
 					
 					if(!Validate::isGenericName(Tools::getValue('cargo')))
-						$this->errors[] = Tools::displayError('Ingrese un cargo válido');
+						$this->errors[] = $this->trans('Ingrese un cargo válido');
 						
 					if(!Validate::isGenericName(Tools::getValue('eps')))
-						$this->errors[] = Tools::displayError('Ingrese una EPS válida');
+						$this->errors[] = $this->trans('Ingrese una EPS válida');
 						
 					if(!Validate::isGenericName(Tools::getValue('fondo')))
-						$this->errors[] = Tools::displayError('Ingrese un fondo de pensión válido');
+						$this->errors[] = $this->trans('Ingrese un fondo de pensión válido');
 						
 					if(!Validate::isGenericName(Tools::getValue('actividad')))
-						$this->errors[] = Tools::displayError('Ingrese su actividad económica');
+						$this->errors[] = $this->trans('Ingrese su actividad económica');
 						
 					if(!Tools::getValue('contrato'))
-						$this->errors[] = Tools::displayError('Seleccione el tipo de contrato');	
+						$this->errors[] = $this->trans('Seleccione el tipo de contrato');	
 						
 					if(!Tools::getValue('fecha_vinculacion') || !Validate::isDate(Tools::getValue('fecha_vinculacion')))
-						$this->errors[] = Tools::displayError('Ingrese una fecha de vinculación válida');	
+						$this->errors[] = $this->trans('Ingrese una fecha de vinculación válida');	
 						
 					if(!Tools::getValue('ingresos') || !Validate::isInt(Tools::getValue('ingresos')))
-						$this->errors[] = Tools::displayError('Ingrese un monto válido de ingresos');	
+						$this->errors[] = $this->trans('Ingrese un monto válido de ingresos');	
 						
 					if(!Tools::getValue('egresos') || !Validate::isInt(Tools::getValue('egresos')))
-						$this->errors[] = Tools::displayError('Ingrese un monto válido de egresos');
+						$this->errors[] = $this->trans('Ingrese un monto válido de egresos');
 						
 					if(!Validate::isGenericName(Tools::getValue('placa_vehiculo')))
-						$this->errors[] = Tools::displayError('Ingrese un egreso válido');	
+						$this->errors[] = $this->trans('Ingrese un egreso válido');	
 					
 					if(Tools::getValue('conyuge_nombre') 
 						|| Tools::getValue('conyuge_identificacion')
@@ -186,57 +185,57 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 					{
 						
 						if(!Validate::isName(Tools::getValue('conyuge_nombre')))
-							$this->errors[] = Tools::displayError('Ingrese el nombre del conyuge');	
+							$this->errors[] = $this->trans('Ingrese el nombre del conyuge');	
 							
 						if(!Tools::getValue('conyuge_identificacion'))
-							$this->errors[] = Tools::displayError('Ingrese la identificación del conyuge');		
+							$this->errors[] = $this->trans('Ingrese la identificación del conyuge');		
 							
 						if(!Validate::isGenericName(Tools::getValue('conyuge_actividad')))
-							$this->errors[] = Tools::displayError('Ingrese la actividad económica dekl conyuge');
+							$this->errors[] = $this->trans('Ingrese la actividad económica dekl conyuge');
 							
 						if(!Validate::isInt(Tools::getValue('conyuge_ingresos')))
-							$this->errors[] = Tools::displayError('Ingrese un monto válido de ingresos');
+							$this->errors[] = $this->trans('Ingrese un monto válido de ingresos');
 							
 						if(!Validate::isPhoneNumber(Tools::getValue('conyuge_telefono')))
-							$this->errors[] = Tools::displayError('Ingrese el teléfono del conyuge');	
+							$this->errors[] = $this->trans('Ingrese el teléfono del conyuge');	
 					}
 					
 					if(!Tools::getValue('referencia_familiar_nombre')
 						&& !Tools::getValue('referencia_familiar_telefono')
 						&& !Tools::getValue('referencia_familiar_celular')) 
 					{
-						$this->errors[] = Tools::displayError('Ingrese la referencia familiar');
+						$this->errors[] = $this->trans('Ingrese la referencia familiar');
 					} else {
 											
 						if(!Tools::getValue('referencia_familiar_nombre') || !Validate::isName(Tools::getValue('referencia_familiar_nombre')))
-							$this->errors[] = Tools::displayError('Ingrese el nombre de la referencia familiar');
+							$this->errors[] = $this->trans('Ingrese el nombre de la referencia familiar');
 	
 						if(!Tools::getValue('referencia_familiar_telefono') || !Validate::isPhoneNumber(Tools::getValue('referencia_familiar_telefono')))
-							$this->errors[] = Tools::displayError('Ingrese un teléfono válido para de la referencia familiar');	
+							$this->errors[] = $this->trans('Ingrese un teléfono válido para de la referencia familiar');	
 	
 						if(!Tools::getValue('referencia_familiar_celular') || !Validate::isPhoneNumber(Tools::getValue('referencia_familiar_celular')))
-							$this->errors[] = Tools::displayError('Ingrese un celular válido la para referencia familiar');	
+							$this->errors[] = $this->trans('Ingrese un celular válido la para referencia familiar');	
 					}
 					
 					if(!Tools::getValue('referencia_personal_nombre')
 						&& !Tools::getValue('referencia_personal_telefono')
 						&& !Tools::getValue('referencia_personal_celular')) 
 					{
-						$this->errors[] = Tools::displayError('Ingrese la referencia personal');
+						$this->errors[] = $this->trans('Ingrese la referencia personal');
 					} else {
 						if(!Tools::getValue('referencia_personal_nombre') || !Validate::isName(Tools::getValue('referencia_personal_nombre')))
-							$this->errors[] = Tools::displayError('Ingrese el nombre de la referencia personal');	
+							$this->errors[] = $this->trans('Ingrese el nombre de la referencia personal');	
 	
 						if(!Tools::getValue('referencia_personal_telefono') || !Validate::isPhoneNumber(Tools::getValue('referencia_personal_telefono')))
-							$this->errors[] = Tools::displayError('Ingrese un teléfono válido para la referencia personal');	
+							$this->errors[] = $this->trans('Ingrese un teléfono válido para la referencia personal');	
 							
 						if(!Tools::getValue('referencia_personal_celular') || !Validate::isPhoneNumber(Tools::getValue('referencia_personal_celular')))
-							$this->errors[] = Tools::displayError('Ingrese un celular válido para la referencia personal');
+							$this->errors[] = $this->trans('Ingrese un celular válido para la referencia personal');
 					}
 
 					if($this->_terminos) {
 						if(Tools::getValue('terminos') == 'false')
-							$this->errors[] = Tools::displayError('Acepte los términos y condiciones');
+							$this->errors[] = $this->trans('Acepte los términos y condiciones');
 					}
 					
 					if(!count($this->errors)) {
@@ -272,16 +271,23 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 			}
 			if(count($this->errors)) {
 				$response['haserror'] = true;
-				$this->context->smarty->assign(array(
-							'errors' => $this->errors
-						));
-				ob_start();
-				$this->context->smarty->fetch(_PS_THEME_DIR_.'errors.tpl');
-				$response['message'] = ob_get_clean();
+				$response['message'] = $this->_printErrors();
 			}
 			die(Tools::jsonEncode($response));
 			exit;
 		}
+	}
+	
+	private function _printErrors() {
+		$html = '<div class="col-xs-12 alert alert-danger">
+					<ul>
+						<li>';
+		$html.= implode('</li><li>',$this->errors);
+		$html.= '		</li>
+					</ul>
+				</div>';
+				
+		return $html;
 	}
 	
 	public function initContent()
@@ -300,21 +306,21 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 			'terminos'		=> $this->_terminos,
 			'quotaselected' => Tools::getValue('quotes'),
 		));
-		
 		$this->setTemplate('module:'.$this->module->name.'/views/templates/front/simulator.tpl');
 	}
 	public function setMedia() 
 	{
-      	parent::setMedia();
-		$this->registerStylesheet(
+		parent::setMedia();
+		
+		$this->context->controller->registerStylesheet(
             $this->module->name.'_css',
-            'module:'.$this->module->name.'/views/css/simfun.css'
+            'modules/'.$this->module->name.'/views/css/simfun.css'
         );
-		$this->registerJavascript(
+		$this->context->controller->registerJavascript(
             $this->module->name.'_js',
-            'module:'.$this->module->name.'/views/js/simfun.js'
+            'modules/'.$this->module->name.'/views/js/simfun.js'
         );
-		//$this->addJqueryUI('ui.datepicker');
-		//$this->addJqueryPlugin(array('fancybox'));
+		$this->addJqueryUI('ui.datepicker');
+		$this->addJqueryPlugin(array('fancybox'));		
     }
 }
