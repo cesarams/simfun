@@ -55,6 +55,12 @@ class simfun extends Module
 		if(!Validate::isUnsignedFloat(Tools::getValue($this->name.'_tasa'))) {
 			$this->_error[] = Module::displayError($this->l('Ingrese una tasa de interes válida'));
 		}
+		
+		if(Tools::getValue($this->name.'_cuotasdefault')) {
+			if(!Validate::isInt(Tools::getValue($this->name.'_cuotasdefault'))) {
+				$this->_error[] = Module::displayError($this->l('Ingrese una cuota por defecto válida'));
+			}
+		}
 			
 		if(!Tools::getValue($this->name.'_cuotas')) {
 			$this->_error[] = Module::displayError($this->l('Ingrese un numero de cuotas válido'));	
@@ -122,6 +128,12 @@ class simfun extends Module
                 ),
 				array(
                     'type' => 'text',
+                    'label' => $this->l('Cuotas por defecto:'),
+					'desc' => $this->l("Ingrese el numero de cuotas por defecto, esta será usado para calcular el valor de cuota en la página del producto, deje en blanco para desactivar la funcionalidad"),
+                    'name' => $this->name.'_cuotasdefault',
+                ),
+				array(
+                    'type' => 'text',
                     'label' => $this->l('Tipo vivienda:'),
 					'desc' => $this->l("Ingrese los valores permitidos separados por (,). no es necesario espacio entre estos"),
                     'name' => $this->name.'_tipo_vivienda',
@@ -176,6 +188,12 @@ class simfun extends Module
         );
         $helper->fields_value[$this->name.'_cuotas'] = Configuration::get(
             'PS_CONFIGURATION_'.mb_strtoupper($this->name.'_cuotas'),
+            null,
+            Shop::getContextShopGroupID(true),
+            Shop::getContextShopID(true)
+        );
+		$helper->fields_value[$this->name.'_cuotasdefault'] = Configuration::get(
+            'PS_CONFIGURATION_'.mb_strtoupper($this->name.'_cuotasdefault'),
             null,
             Shop::getContextShopGroupID(true),
             Shop::getContextShopID(true)
@@ -271,6 +289,8 @@ class simfun extends Module
         if (!parent::install() ||
 		 	!$this->registerHook('displayBackOfficeHeader') ||
 			!$this->registerHook('moduleRoutes') ||
+			!$this->registerHook('displayProductPriceBlock') ||
+			!$this->registerHook('header') ||
 			!Db::getInstance()->Execute($sql)
         ) {
             return false;
@@ -318,16 +338,69 @@ class simfun extends Module
             return false;
         }
     }
+	
+	public function hookHeader() {
+		$this->context->controller->registerStylesheet(
+				'modules-simfuncss',
+				'modules/'.$this->name.'/views/css/simfun.css'
+		);
+		$this->context->controller->registerJavascript(
+				'modules-simfunjs',
+				'modules/'.$this->name.'/views/js/simfun.js'
+		);
+		$this->context->controller->addJqueryPlugin(array('fancybox'));	
+	}
+	
+	public function hookDisplayProductPriceBlock($params) {
+		$nrocuotas = Configuration::get(
+            'PS_CONFIGURATION_'.mb_strtoupper($this->name.'_cuotasdefault'),
+            null,
+            Shop::getContextShopGroupID(true),
+            Shop::getContextShopID(true)
+        );
+		if($params['type'] == 'price' && $params['product']['regular_price_amount'] && $nrocuotas) {
+			require_once ('classes/Simfun.php');
+			$simfun = new SimfunCore;
+			
+			$cuotas = explode(',',Configuration::get(
+				'PS_CONFIGURATION_'.mb_strtoupper($this->name.'_cuotas'),
+				null,
+				Shop::getContextShopGroupID(true),
+				Shop::getContextShopID(true)
+			));
+			$simulate = array();
+			foreach($cuotas as $cuota) {
+				$sumulate[$cuota] = $simfun->getQuota($params['product']['regular_price_amount'],$cuota);
+				$sumulate[$cuota]['value'] =Tools::jsonEncode($sumulate[$cuota]);
+				$sumulate[$cuota]['valuenoparse'] =Tools::jsonEncode($simfun->getQuota($params['product']['regular_price_amount'],$cuota,true));
+				$sumulate[$cuota]['selected'] = false;
+				if($cuota == $nrocuotas) {
+					$sumulate[$cuota]['selected'] =true;
+					$selected = $sumulate[$cuota]['valuenoparse'];
+				}
+			}
+			$calcule = $simfun->getQuota($params['product']['regular_price_amount'],$nrocuotas); 
+			$this->context->smarty->assign(array(
+				'type' => $params['type'],
+				'quota' => $calcule['quote'],
+				'quotas' => $nrocuotas,
+				'simulate' => $sumulate,
+				'link' => $this->context->link->getModuleLink($this->name,'simulador'),
+				'selected' => $selected,
+			));
+			return $this->display(__FILE__, 'hookDisplayProductPriceBlock.tpl');
+		}
+	}
 
 	public function hookModuleRoutes() {
 		return array(
-			'module-'.$this->name.'-simulador' => array( //Prestashop will use this pattern to compare addresses: module-{module_name}-{controller_name}
-				'controller' => 'simulador', //module controller name
-				'rule' => 'simulador-credito', //the desired page URL
+			'module-'.$this->name.'-simulador' => array( 
+				'controller' => 'simulador', 
+				'rule' => 'simulador-credito', 
 				'keywords' => array(),
 				'params' => array(
 					'fc' => 'module',
-					'module' => $this->name, //module name
+					'module' => $this->name, 
 				)
 			),
 		);

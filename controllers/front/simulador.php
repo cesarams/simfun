@@ -294,7 +294,7 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 	public function initContent()
 	{
 		parent::initContent();
-
+		
 		$this->context->smarty->assign(array(
 			'quotes' => $this->quotes,
 			'action' => $this->context->link->getModuleLink($this->module->name,$this->name),

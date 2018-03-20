@@ -1,4 +1,65 @@
 $(document).ready(function(e) {
+	isJson = function isJson(item) {
+    	item = typeof item !== "string"
+			? JSON.stringify(item)
+			: item;
+	
+		try {
+			item = JSON.parse(item);
+		} catch (e) {
+			return false;
+		}
+	
+		if (typeof item === "object" && item !== null) {
+			return true;
+		}
+	
+		return false;
+	}
+	hasChange = function () {
+  		var hash = window.location.hash.substring(1);
+		
+		if(hash && isJson(hash)) {
+			hash = JSON.parse(hash);
+			$('#step1 #value').val(hash.capital);
+			$('#step1 #quota option').each(function(index, element) {
+				if($(element).val() == hash.quotes) {
+					$(element).attr('selected','selected');
+				}else {
+					$(element).removeAttr('selected');
+				}
+			});
+			$('#step1').hide();
+			$('#step2').hide();
+			$('#step3').show().promise().done(function(){
+				window.location.hash = '';
+			});
+		}
+	}
+	window.onhashchange = function() {hasChange()};
+	if(window.location.hash) {
+		console.log('lado 2');
+		hasChange();
+	}
+	
+	
+	$('#product-simulate').on('click',function(e){
+		e.preventDefault();
+		$.fancybox($('.simfun-modal').html());
+	})
+	$('body').on('change','#simfun-modal-cuotes',function(e){
+		var calculate = JSON.parse($(this).val());
+		if(calculate.quote) {
+			$('#simfun-quota price').html(calculate.quote);
+			$('.fancybox-skin #gotosimulator').attr('data-value',$('option:selected',$('.fancybox-skin #simfun-modal-cuotes')).attr('data-value'));
+		}
+	});
+	$('body').on('click','#gotosimulator',function(e){
+		e.preventDefault();
+		var Link = $(this).attr('data-link'); 
+		var choosen = JSON.parse($(this).attr('data-value'));
+		window.open(Link+'#'+$(this).attr('data-value'), "new");
+	})
 	$('#fecha_vinculacion').datepicker({
 		changeYear: true,
 		changeMonth: true,

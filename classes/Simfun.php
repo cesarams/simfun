@@ -143,7 +143,8 @@ class SimfunCore extends ObjectModel
 			Shop::getContextShopID(true)
 		);
 		
-		if(!$c && !$m && !$im)
+		
+		if(!$c || !$m || !$im)
 			return;
 		
 		return array(

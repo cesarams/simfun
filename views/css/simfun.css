@@ -19,17 +19,79 @@
 	content: '';
 }
 #step3 select {
-	width:100%;
+	width: 100%;
 }
-#step3 div {
-	display: inline-table;
-}
-#step3 .terminos input[type=checkbox] {
-    width: auto;
-    float: left;
-    margin: 10px;
-}
+
 #step3 .terminos label {
 	width: 100%;
 	text-align: left;
+}
+#module-simfun-simulador form {
+	padding-top: 2em;
+	padding-bottom: 1em;
+}
+#module-simfun-simulador #step2 table {
+	border: 1px solid #ECECEC;
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+#module-simfun-simulador #step2 table th, #module-simfun-simulador #step2 table td {
+	padding: 1em;
+	text-align: center;
+}
+#module-simfun-simulador #step2 table th {
+	color: #FFF;
+	font-weight: 900;
+	background: #0160b4;
+}
+#module-simfun-simulador #step2 table #quote {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+#module-simfun-simulador #step3 h2 {
+	background: #0160b4;
+	padding: 0.5em;
+	color: #FFF;
+	margin-top: 1.5em;
+	display: block;
+	clear: both;
+}
+#module-simfun-simulador #step3 h2:first-child {
+	margin-top: initial;
+}
+#module-simfun-simulador #step3 .form-group {
+	float: left;
+	height: 70px;
+	display: inline-block;
+}
+#step3 .terminos {
+	height: auto !important;
+}
+#step3 .terminos input[type=checkbox] {
+	width: auto;
+	float: left;
+	margin: 10px;
+}
+.hookDisplayProductPriceBlock {
+	background-image:url(../../img/hook.png);
+	background-repeat: no-repeat;
+	background-size: 40px;
+	padding-left: 45px;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	background-position-y: 0.7em;
+}
+.hookDisplayProductPriceBlock .simfun-modal {
+	display:none;
+}
+.simfun-modal-content {
+	padding: 2em;
+	text-align:center;
+}
+.simfun-modal-content #simfun-quota {
+	text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+	padding-top:1em;
+	padding-bottom:1em;
 }
