@@ -41,7 +41,7 @@ class simfun extends Module
         $this->author = 'Fábricas Unidas';
 		$this->secure_key = Tools::encrypt($this->name);
 		parent::__construct();
-        $this->displayName = $this->l('simfun');
+        $this->displayName = $this->l('Simulador de credito');
         $this->description = $this->l('Instalador de componentes para formulario web crédito online');
         $this->_module = $this->name;
         $this->bootstrap = true;
@@ -83,7 +83,7 @@ class simfun extends Module
 				asort($_POST[$this->name.'_cuotas']);
 				$_POST[$this->name.'_cuotas'] = implode(',',$_POST[$this->name.'_cuotas']);
 				foreach ($_POST as $k => $v) {
-					if (strstr($k, $this->name) && $v) {
+					if (strstr($k, $this->name)) {
 						Configuration::updateValue(
 							Tools::strtoupper('ps_configuration_'.$k),
 							$v ,

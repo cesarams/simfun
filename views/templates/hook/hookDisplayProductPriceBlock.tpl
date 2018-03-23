@@ -12,7 +12,7 @@
       <div id="simfun-quota">
         <p>{l s='De' d='Modules.simfun'}</p>
         <price>{$quota}</price> </div>
-      <div class="submit text-sm-right">
+      <div class="submit text-sm-center">
         <button type="submit" id="gotosimulator" data-link="{$link}" data-value="{$selected}" name="calculate" class="button btn btn-primary button-medium"><span>{l s='Solicitar crédito' d='Modules.simfun'}<i class="icon-chevron-right right"></i></span></button>
       </div>
     </div>

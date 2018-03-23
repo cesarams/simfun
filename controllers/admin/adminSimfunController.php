@@ -93,7 +93,8 @@ class AdminSimfunController extends ModuleAdminController
         );
 
         $this->bulk_actions = array();
-        $this->specificConfirmDelete = false;		
+        $this->specificConfirmDelete = false;
+		$this->list_no_link = true;			
 		
 		parent::__construct();
     }
