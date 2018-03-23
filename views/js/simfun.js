@@ -1,48 +1,21 @@
 $(document).ready(function(e) {
-	isJson = function isJson(item) {
-    	item = typeof item !== "string"
-			? JSON.stringify(item)
-			: item;
-	
-		try {
-			item = JSON.parse(item);
-		} catch (e) {
-			return false;
-		}
-	
-		if (typeof item === "object" && item !== null) {
-			return true;
-		}
-	
-		return false;
+	if(localStorage.simfun_capital && localStorage.simfun_quote) {
+		$('#step1 #value').val(localStorage.simfun_capital);
+		$('#step1 #quota option').each(function(index, element) {
+			if($(element).val() == localStorage.simfun_quotes) {
+				$(element).attr('selected','selected');
+			}else {
+				$(element).removeAttr('selected');
+			}
+		});
+		$('#step1').hide();
+		$('#step2').hide();
+		$('#step3').show().promise().done(function(){
+			localStorage.removeItem('simfun_capital');
+			localStorage.removeItem('simfun_quotes');
+			localStorage.removeItem('simfun_quote');
+		});
 	}
-	hasChange = function () {
-  		var hash = window.location.hash.substring(1);
-		
-		if(hash && isJson(hash)) {
-			hash = JSON.parse(hash);
-			$('#step1 #value').val(hash.capital);
-			$('#step1 #quota option').each(function(index, element) {
-				if($(element).val() == hash.quotes) {
-					$(element).attr('selected','selected');
-				}else {
-					$(element).removeAttr('selected');
-				}
-			});
-			$('#step1').hide();
-			$('#step2').hide();
-			$('#step3').show().promise().done(function(){
-				window.location.hash = '';
-			});
-		}
-	}
-	window.onhashchange = function() {hasChange()};
-	if(window.location.hash) {
-		console.log('lado 2');
-		hasChange();
-	}
-	
-	
 	$('#product-simulate').on('click',function(e){
 		e.preventDefault();
 		$.fancybox($('.simfun-modal').html());
@@ -58,7 +31,10 @@ $(document).ready(function(e) {
 		e.preventDefault();
 		var Link = $(this).attr('data-link'); 
 		var choosen = JSON.parse($(this).attr('data-value'));
-		window.open(Link+'#'+$(this).attr('data-value'), "new");
+		localStorage.setItem("simfun_capital", choosen.capital);
+		localStorage.setItem("simfun_quotes", choosen.quotes);
+		localStorage.setItem("simfun_quote", choosen.quote);
+		window.open(Link, "_blank");
 	})
 	$('#fecha_vinculacion').datepicker({
 		changeYear: true,
