@@ -61,6 +61,12 @@ class simfun extends Module
 				$this->_error[] = Module::displayError($this->l('Ingrese una cuota por defecto válida'));
 			}
 		}
+		
+		if(Tools::getValue($this->name.'_cargo_adicional')) {
+			if(!Validate::isInt(Tools::getValue($this->name.'_cargo_adicional'))) {
+				$this->_error[] = Module::displayError($this->l('Ingrese un cargo adicional válido'));
+			}
+		}
 			
 		if(!Tools::getValue($this->name.'_cuotas')) {
 			$this->_error[] = Module::displayError($this->l('Ingrese un numero de cuotas válido'));	
@@ -72,6 +78,14 @@ class simfun extends Module
 				}
 			}
 		}
+		if(Tools::getValue($this->name.'_emailnotificacion')) {
+			$emails = array_unique(array_filter(explode(',',Tools::getValue($this->name.'_emailnotificacion'))));
+			foreach($emails as $email) {
+				if(!Validate::isEmail($email)) {
+					$this->_error[] = Module::displayError(sprintf($this->l('El email %s no es válido'),$email));		
+				}
+			}
+		}
 	}
 	
     protected function postProcess()
@@ -80,8 +94,10 @@ class simfun extends Module
 			$this->validatePost();
 			if(sizeof($this->_error) == 0) {
 				$_POST[$this->name.'_cuotas'] = array_unique(array_filter(explode(',',Tools::getValue($this->name.'_cuotas'))));
+				$_POST[$this->name.'_emailnotificacion'] = array_unique(array_filter(explode(',',Tools::getValue($this->name.'_emailnotificacion'))));
 				asort($_POST[$this->name.'_cuotas']);
 				$_POST[$this->name.'_cuotas'] = implode(',',$_POST[$this->name.'_cuotas']);
+				$_POST[$this->name.'_emailnotificacion'] = implode(',',$_POST[$this->name.'_emailnotificacion']);
 				foreach ($_POST as $k => $v) {
 					if (strstr($k, $this->name)) {
 						Configuration::updateValue(
@@ -149,6 +165,18 @@ class simfun extends Module
                     'label' => $this->l('Tipo de contrato:'),
 					'desc' => $this->l("Ingrese los valores permitidos separados por (,). no es necesario espacio entre estos"),
                     'name' => $this->name.'_tipo_contrato',
+                ),
+				array(
+                    'type' => 'text',
+                    'label' => $this->l('Cargos adicionales:'),
+					'desc' => $this->l("Ingrese el valor de los cargos adicionales como seguros etc"),
+                    'name' => $this->name.'_cargo_adicional',
+                ),
+				array(
+                    'type' => 'text',
+                    'label' => $this->l('Email de notificación:'),
+					'desc' => $this->l("Ingrese el o los email de notificacion a enviar al momento de generarse una nueva solicitud separados por (,)"),
+                    'name' => $this->name.'_emailnotificacion',
                 ),
 				array(
 					'type' => 'textarea',
@@ -228,7 +256,18 @@ class simfun extends Module
             Shop::getContextShopGroupID(true),
             Shop::getContextShopID(true)
         );
-		
+		$helper->fields_value[$this->name.'_cargo_adicional'] = Configuration::get(
+            'PS_CONFIGURATION_'.mb_strtoupper($this->name.'_cargo_adicional'),
+            null,
+            Shop::getContextShopGroupID(true),
+            Shop::getContextShopID(true)
+        );
+		$helper->fields_value[$this->name.'_emailnotificacion'] = Configuration::get(
+            'PS_CONFIGURATION_'.mb_strtoupper($this->name.'_emailnotificacion'),
+            null,
+            Shop::getContextShopGroupID(true),
+            Shop::getContextShopID(true)
+        );
         if (count($this->_error) > 0) {
             $errors = implode('', $this->_error);
         }

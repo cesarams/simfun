@@ -37,10 +37,12 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 	private $_estrato;
 	private $_tipo_contrato;
 	private $_terminos;
+	private $_email_notification;
 	
 
 	public function init()
     {
+		
 		global $smarty;
         parent::init();
 		$this->quotes = Configuration::get('PS_CONFIGURATION_'.mb_strtoupper($this->module->name.'_cuotas'),
@@ -75,7 +77,12 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
             Shop::getContextShopGroupID(true),
             Shop::getContextShopID(true)
         );
-		
+		$this->_emailnotificacion = Configuration::get(
+            'PS_CONFIGURATION_'.mb_strtoupper($this->module->name.'_emailnotificacion'),
+            null,
+            Shop::getContextShopGroupID(true),
+            Shop::getContextShopID(true)
+        );
 		require_once dirname(__FILE__)."/../../classes/Simfun.php";		
 		if(Tools::getValue('ajax')) {
 			switch(Tools::getValue('ajax')) {
@@ -255,7 +262,28 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 							);
 							$couta = $simfun->getQuota($simfun->value,$simfun->quota,true);
 							$simfun->cuota = $couta['quote'];
+							if($this->_emailnotificacion) {
+								$emails = explode(',',$this->_emailnotificacion);
+								foreach(explode(',',$this->_emailnotificacion) as &$email) {
+									Mail::Send((int)(
+										Configuration::get('PS_LANG_DEFAULT')), // idLang
+										'simfun', // template
+										$this->trans('Nueva solicitud de crédito'), // subject
+										array( // templateVars
+										  '{customer}' => $_POST['nombre'], // sender email address
+										), 
+										$email, // to
+										'test', 
+										Configuration::get('PS_SHOP_EMAIL') , //from 
+										NULL,  // fromName 
+										NULL, //fileAttachment
+										NULL, //mode_smtp
+										_MODULE_DIR_.$this->module->name.'/' // templatePath
+									);
+								}
+							}
 							$simfun->add();
+							unset($_POST);
 							$response['haserror'] = false;
 							$response['message'] = Configuration::get(
 													'PS_CONFIGURATION_'.mb_strtoupper($this->module->name.'_message'),
@@ -294,7 +322,7 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 	public function initContent()
 	{
 		parent::initContent();
-		
+		$original_path = _PS_MAIL_DIR_;		
 		$this->context->smarty->assign(array(
 			'quotes' => $this->quotes,
 			'action' => $this->context->link->getModuleLink($this->module->name,$this->name),
@@ -312,15 +340,6 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 	public function setMedia() 
 	{
 		parent::setMedia();
-		
-		$this->context->controller->registerStylesheet(
-            $this->module->name.'_css',
-            'modules/'.$this->module->name.'/views/css/simfun.css'
-        );
-		$this->context->controller->registerJavascript(
-            $this->module->name.'_js',
-            'modules/'.$this->module->name.'/views/js/simfun.js'
-        );
 		$this->addJqueryUI('ui.datepicker');
 		$this->addJqueryPlugin(array('fancybox'));		
     }

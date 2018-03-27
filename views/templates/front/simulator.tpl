@@ -288,7 +288,7 @@
         </div>
         <div class="form-group col-md-6">
           <label for="conyuge_identificacion">{l s='Cedula número' d='Modules.simfun'}</label>
-          <input class="form-control" maxlength="15" id="conyuge_identificacion" name="conyuge_identificacion" placeholder="{l s='Ingrese el teléfono de su conyuge' d='Modules.simfun'}">
+          <input class="form-control" maxlength="15" id="conyuge_identificacion" name="conyuge_identificacion" placeholder="{l s='Ingrese el documento de su conyuge' d='Modules.simfun'}">
         </div>
         <div class="form-group col-md-4">
           <label for="conyuge_actividad">{l s='Actividad económica' d='Modules.simfun'}</label>

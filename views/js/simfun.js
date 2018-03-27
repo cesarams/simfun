@@ -80,7 +80,9 @@ $(document).ready(function(e) {
 	})
 	$('#register').on('click',function(e) {
 		e.preventDefault();
+		var $this = $(this);
 		var post = {};
+		$this.attr('disabled','disabled');
 		$('#step3 input, #step3 select').each(function(index, element) {
 			if($(element).attr('type') == 'checkbox' || $(element).attr('type') == 'radio') {
 				post[$(element).attr('name')] = $(element).prop("checked")
@@ -100,6 +102,7 @@ $(document).ready(function(e) {
 		  },
 		  success: function(data) {
 			data = JSON.parse(data);
+			$this.removeAttr('disabled');
 			if(data.haserror) {
 				$("#message").html(data.message).show();
 				$(window).scrollTop($("#message").offset().top -50)

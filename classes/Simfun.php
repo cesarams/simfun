@@ -142,7 +142,12 @@ class SimfunCore extends ObjectModel
 			Shop::getContextShopGroupID(true),
 			Shop::getContextShopID(true)
 		);
-		
+		$ca = Configuration::get(
+			'PS_CONFIGURATION_SIMFUN_CARGO_ADICIONAL',
+			null,
+			Shop::getContextShopGroupID(true),
+			Shop::getContextShopID(true)
+		);
 		
 		if(!$c || !$m || !$im)
 			return;
@@ -150,7 +155,7 @@ class SimfunCore extends ObjectModel
 		return array(
 			'capital' => $noformat ? $c : Tools::displayPrice($c),
 			'quotes' => $m,
-			'quote'	=> $noformat ? round((($im / 100) * $c) / (1 - pow(($im / 100) + 1,-$m))) : Tools::displayPrice(round((($im / 100) * $c) / (1 - pow(($im / 100) + 1,-$m))))
+			'quote'	=> ($noformat ? round((($im / 100) * $c) / (1 - pow(($im / 100) + 1,-$m))) : Tools::displayPrice(round((($im / 100) * $c) / (1 - pow(($im / 100) + 1,-$m)))))+$ca
 		);
 	}
 }
