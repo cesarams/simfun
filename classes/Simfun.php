@@ -155,7 +155,7 @@ class SimfunCore extends ObjectModel
 		return array(
 			'capital' => $noformat ? $c : Tools::displayPrice($c),
 			'quotes' => $m,
-			'quote'	=> ($noformat ? round((($im / 100) * $c) / (1 - pow(($im / 100) + 1,-$m))) : Tools::displayPrice(round((($im / 100) * $c) / (1 - pow(($im / 100) + 1,-$m)))))+$ca
+			'quote'	=> ($noformat ? round((($im / 100) * $c) / (1 - pow(($im / 100) + 1,-$m))+$ca) : Tools::displayPrice(round((($im / 100) * $c) / (1 - pow(($im / 100) + 1,-$m))+$ca)))
 		);
 	}
 }
