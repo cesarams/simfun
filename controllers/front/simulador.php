@@ -38,6 +38,7 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 	private $_tipo_contrato;
 	private $_terminos;
 	private $_email_notification;
+	private $_recaptcha;
 	
 
 	public function init()
@@ -83,6 +84,7 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
             Shop::getContextShopGroupID(true),
             Shop::getContextShopID(true)
         );
+		$this->_recaptcha = Module::isInstalled('recaptcha');
 		require_once dirname(__FILE__)."/../../classes/Simfun.php";		
 		if(Tools::getValue('ajax')) {
 			switch(Tools::getValue('ajax')) {
@@ -106,6 +108,12 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 				case 'register':
 					$simfun = new SimfunCore();
 					$_POST = Tools::getValue('post'); 
+					if($this->_recaptcha) {
+						require_once(_PS_ROOT_DIR_.'/modules/recaptcha/recaptcha.php');
+						$recaptcha = new Recaptcha();
+						$recaptcha->validateCaptcha();
+						unset($_POST['g-recaptcha-response']);
+					}
 					
 					if(!Tools::getValue('nombre') || !Validate::isName(Tools::getValue('nombre')))
 						$this->errors[] = $this->trans('Ingrese un nombre válido');
@@ -264,7 +272,7 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 							$simfun->cuota = $couta['quote'];
 							if($this->_emailnotificacion) {
 								$emails = explode(',',$this->_emailnotificacion);
-								foreach(explode(',',$this->_emailnotificacion) as &$email) {
+								foreach($emails as &$email) {
 									Mail::Send((int)(
 										Configuration::get('PS_LANG_DEFAULT')), // idLang
 										'simfun', // template
@@ -333,13 +341,24 @@ class SimfunSimuladorModuleFrontController extends ModuleFrontController
 			'tipo_contrato' => $this->_tipo_contrato,
 			'tipo_vivienda' => $this->_tipo_vivienda,
 			'terminos'		=> $this->_terminos,
-			'quotaselected' => Tools::getValue('quotes'),
+			'quotaselected' => Tools::getValue('quotes')
 		));
+		if($this->_recaptcha) {
+			$this->context->smarty->assign('recaptcha', Hook::exec('contactFormBottom'));
+		}
+		
 		$this->setTemplate('module:'.$this->module->name.'/views/templates/front/simulator.tpl');
 	}
 	public function setMedia() 
 	{
 		parent::setMedia();
+		if($this->_recaptcha) {
+			$this->context->controller->registerJavascript(
+                    'remote-recaptcha',
+                    'https://www.google.com/recaptcha/api.js?hl='.$this->context->language->language_code,
+                    array('server' => 'remote')
+                );
+		}
 		$this->addJqueryUI('ui.datepicker');
 		$this->addJqueryPlugin(array('fancybox'));		
     }

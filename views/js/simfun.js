@@ -92,6 +92,7 @@ $(document).ready(function(e) {
 		});
 		post['value'] = $('#step1 #value').val();
 		post['quota'] = $('#step1 #quota').val();
+		post['g-recaptcha-response'] = $('#g-recaptcha-response').val();
 
 		$.ajax({
 		  type: 'POST',

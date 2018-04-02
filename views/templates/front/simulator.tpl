@@ -340,9 +340,15 @@
             {$terminos nofilter} </label>
         </div>
         {/if}
+        {if $recaptcha}
+            <div class="form-group col-md-12 text-sm-center google-recaptcha">
+            {$recaptcha nofilter}
+            </div>
+        {/if}
         <div class="form-group col-md-12 text-sm-right">
           <button type="button" id="register" name="register" class="button btn btn-primary button-medium"> <span>{l s='Solicitar Crédito' d='Modules.simfun'}<i class="icon-chevron-right right"></i></span> </button>
         </div>
+        
       </div>
     </div>
   </form>
